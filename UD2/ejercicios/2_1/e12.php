@@ -1,7 +1,8 @@
 <?php
 
 // Función para generar números aleatorios
-function generarNumerosAleatorios($cantidad) {
+function generarNumerosAleatorios($cantidad)
+{
     $numeros = [];
     for ($i = 0; $i < $cantidad; $i++) {
         $numeros[] = rand(1, 4); // Genera números entre 1 y 4
@@ -17,24 +18,25 @@ if (isset($_POST['respuesta'])) {
     // Si el usuario acierta, aumentamos el nivel
     if ($_POST['respuesta'] == $numerosGenerados) {
         $nivel++; // Aumentamos el nivel
-        $numerosGenerados = implode('-', generarNumerosAleatorios($nivel)); // Generamos nuevos números
     } else {
         // Si falla, reiniciamos el nivel y mostramos un mensaje de error
         $mensaje = "¡Fallaste! Los números correctos eran: $numerosGenerados. El juego se ha reiniciado.";
         echo "<script>alert('$mensaje');</script>";
         $nivel = 1; // Reiniciamos el nivel
-        $numerosGenerados = implode('-', generarNumerosAleatorios($nivel)); // Generamos nuevos números
+
     }
 } else {
     // Si es la primera vez que se carga la página, iniciamos en el nivel 1
     $nivel = 1;
-    $numerosGenerados = implode('-', generarNumerosAleatorios($nivel));
 }
+// Generamos nuevos números y los transformamos en un string de la forma n1-n2...-n
+$numerosGenerados = implode('-', generarNumerosAleatorios($nivel)); 
 
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,6 +56,7 @@ if (isset($_POST['respuesta'])) {
         }
     </script>
 </head>
+
 <body onload="ocultarNumero()">
 
     <h1>Simón dice</h1>
@@ -68,7 +71,7 @@ if (isset($_POST['respuesta'])) {
         <form method="POST" action="">
             <label for="respuesta">Introduce el número:</label>
             <input type="text" id="respuesta" name="respuesta" required>
-            
+
             <!-- Inputs ocultos para enviar los datos del nivel y los números generados -->
             <input type="hidden" name="numeros" value="<?= $numerosGenerados ?>">
             <input type="hidden" name="nivel" value="<?= $nivel ?>">
@@ -78,4 +81,5 @@ if (isset($_POST['respuesta'])) {
     </div>
 
 </body>
+
 </html>
