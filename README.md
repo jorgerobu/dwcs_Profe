@@ -6,3 +6,7 @@
 ### [Ejemplos](UD2/ejemplos)
 * [Hola mundo](UD2/ejemplos/hola_mundo.php)
 * [Tabla multiplicar](UD2/ejemplos/tabla_multiplicar.php)
+
+### [Ejercicios](UD2/ejercicios)
+#### [Actividad 2.1: Ejercicios PHP sin acceso a bases de datos](UD2/ejercicios/2_1/)
+* [12. Simón dice](UD2/ejercicios/2_1/e12.php)
