@@ -6,6 +6,8 @@
 ### [Ejemplos](UD2/ejemplos)
 * [Hola mundo](UD2/ejemplos/hola_mundo.php)
 * [Tabla multiplicar](UD2/ejemplos/tabla_multiplicar.php)
+* [Bases de datos con mysqli](UD2/ejemplos/conexion_BD_mysqli.php)
+* [Bases de datos con PDO](UD2/ejemplos/conexion_BD_pdo.php)
 
 ### [Ejercicios](UD2/ejercicios)
 #### [Actividad 2.1: Ejercicios PHP sin acceso a bases de datos](UD2/ejercicios/2_1/)
