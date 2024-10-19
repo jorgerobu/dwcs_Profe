@@ -1,5 +1,5 @@
 -- Creamos el usuario si no existe.
-CREATE USER 'usuarioBD'@'%' IDENTIFIED BY 'abc123';
+CREATE USER IF NOT EXISTS 'usuarioBD'@'%' IDENTIFIED BY 'abc123';
 GRANT ALL ON *.* TO 'usuarioBD'@'%';
 -- Creamos la base de datos.
 CREATE DATABASE IF NOT EXISTS mi_base_de_datos;
