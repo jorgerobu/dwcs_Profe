@@ -1,7 +1,13 @@
 <?php
 //Conexion con la base de datos
 $cadenaConexion = 'mysql:host=mariadb;dbname=mi_base_de_datos';
-$db = new PDO($cadenaConexion, 'usuarioBD', 'abc123');
+try{
+
+    $db = new PDO($cadenaConexion, 'usuarioBD', 'abc123');
+}catch(PDOException $ex){
+    print_r('Error BD: '.$ex->getMessage());
+    die();
+}
 
 //Si venimos de agregar un cliente tenemos que insertarlo.
 if (isset($_POST['cliente']) && isset($_POST['telf'])) {
@@ -19,7 +25,8 @@ if (isset($_POST['cliente']) && isset($_POST['telf'])) {
 }
 
 //Ejecutamos la consulta SQL
-$result = $db->query("SELECT * FROM clientes");
+$sql = "SELECT * FROM clientes";
+$result = $db->query($sql);
 
 ?>
 
@@ -59,6 +66,7 @@ $result = $db->query("SELECT * FROM clientes");
             $result->closeCursor();
             //Se cierra la conexion
             $db = null;
+           
             ?>
         </table>
     </fieldset>

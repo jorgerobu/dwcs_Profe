@@ -21,8 +21,28 @@ if (isset($_POST['cliente']) && isset($_POST['telf'])) {
 $pag = $_GET['pag'] ?: 0;
 //Calculamos el offset para excluir las 3 consultas anteriores.
 $offset = $pag*3;
+$sql = "SELECT * FROM clientes ORDER BY nombre LIMIT 3 OFFSET :pagina";
+$cliente_b = trim($_POST['cliente_b']?:'');
+$telf_b = trim($_POST['telf_b']?:'');
+
+if($cliente_b!=''||$telf_b!=''){
+    $sql = "SELECT * FROM clientes
+    WHERE  nombre=:cliente OR telefono=:telf
+    ORDER BY nombre LIMIT 3 OFFSET :pagina";
+    $result = $db->prepare($sql);
+    $result->bindParam(':cliente',$cliente_b,PDO::PARAM_STR);
+    $result->bindParam(':telf',$telf_b,PDO::PARAM_STR);
+}else{
+    $result = $db->prepare($sql);
+}
 //Ejecutamos la consulta SQL. En el sql limitamos los resultados desde pag hasta 3.
-$result = $db->query("SELECT * FROM clientes ORDER BY nombre LIMIT 3 OFFSET $offset");
+
+//$result = $db->query($sql);
+
+$result->bindParam(':pagina',$offset,PDO::PARAM_INT);
+// $result->bindValue();
+//Ejecutamos la consulta.
+$result->execute();
 
 ?>
 
@@ -48,6 +68,13 @@ $result = $db->query("SELECT * FROM clientes ORDER BY nombre LIMIT 3 OFFSET $off
     </fieldset>
     <h1>Tabla paginada</h1>
     <fieldset>
+        <form action="" method="post">
+        <label for="cliente_b">Nombre</label>
+            <input type="text" name="cliente_b" >
+            <label for="telf_b">Teléfono</label>
+            <input type="text" name="telf_b" >
+            <button type="submit">Buscar</button>
+        </form>
         <table>
             <tr>
                 <th>Nombre</th>
