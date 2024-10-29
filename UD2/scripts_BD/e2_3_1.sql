@@ -1,0 +1,11 @@
+-- Base de datos para el ejericio 2.3.1
+CREATE DATABASE IF NOT EXISTS e_231;
+USE e_231;
+CREATE TABLE IF NOT EXISTS USUARIO(
+    nic VARCHAR(30) PRIMARY KEY,
+    nombre VARCHAR(60) NOT NULL,
+    apellido1 VARCHAR(100) NOT NULL,
+    apellido2 VARCHAR(100),
+    mail VARCHAR(320) NOT NULL,
+    pass CHAR(40) NOT NULL
+);

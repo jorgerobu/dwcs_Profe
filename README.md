@@ -32,3 +32,6 @@
 * [8. Relaciones entre Objetos: Curso y Estudiantes](UD2/ejercicios/2_2/e08.php)
 * [9. Abstracción y Clases Abstractas](UD2/ejercicios/2_2/e09.php)
 * [10. Interfaces y Múltiples Tipos de Objetos](UD2/ejercicios/2_2/e10.php)
+
+#### [Actividad 2.3: Ejercicios PHP y Bases de Datos](UD2/ejercicios/2_3)
+* [1. Login](UD2/ejercicios/2_3/e01.html)
