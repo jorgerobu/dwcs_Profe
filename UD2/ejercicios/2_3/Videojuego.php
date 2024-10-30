@@ -3,14 +3,14 @@
  * Clase que representa un videojuego.
  */
 class Videojuego{
-    private int $id;
+    private $id;
     private string $nombre;
     private string $plataforma;
-    private string $genero;
+    private  $genero;
     private int $anio_lanzamiento;
 
 
-    public function __construct(int $id, string $nombre, string $plataforma, string $genero, int $anio_lanzamiento) {
+    public function __construct( string $nombre, string $plataforma,  $genero, int $anio_lanzamiento,$id=null) {
         $this->id = $id;
         $this->nombre = $nombre;
         $this->plataforma = $plataforma;

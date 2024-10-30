@@ -2,8 +2,17 @@
 include("e02_functions.php");
 //Calculo de offset.
 $pag = 0;
-if (isset($_GET['pag']) && is_int($_GET['pag'])) {
+if (isset($_GET['pag']) && is_numeric($_GET['pag'])) {
     $pag = $_GET['pag'];
+}
+
+//Si nos llega un id es porque se pretende eliminar un videojuego. Ver abajo los enlaces Eliminar de la tabla.
+if(isset($_GET['id'])){
+    if(eliminar_videojuego(intval($_GET['id']))){
+        echo '<script>alert("Registro eliminado");</script>';
+    }else{
+        echo '<script>alert("Ups! Algo ha salido mal. No se ha podido eliminar el registro.");</script>';
+    }
 }
 ?>
 
@@ -15,6 +24,11 @@ if (isset($_GET['pag']) && is_int($_GET['pag'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="estilos.css">
     <title>Videojuegos</title>
+    <script>
+        function confirmar_eliminar(nombre){
+            return confirm(`¿Quiere eliminar el videojuego ${nombre}?`);
+        }
+    </script>
 </head>
 
 <body>
@@ -35,8 +49,8 @@ if (isset($_GET['pag']) && is_int($_GET['pag'])) {
             echo '<td>' . $v->getPlataforma() . '</td>';
             echo '<td>' . $v->getAnio_lanzamiento() . '</td>';
             echo '<td>' . $v->getGenero() . '</td>';
-            echo ' <td><a href="altamodificacion.php?id=' . $v->getId() . '">Editar</a></td>';
-            echo ' <td><a href="eliminar.php?id=' . $v->getId() . '">Eliminar</a></td></tr>';
+            echo ' <td><a href="e02_altamodificacion.php?id=' . $v->getId() . '">Editar</a></td>';
+            echo ' <td><a href="?id=' . $v->getId() . '&pag='.$pag.'" onclick="return confirmar_eliminar(\''.$v->getNombre().'\')">Eliminar</a></td></tr>';
         }
         ?>
 
