@@ -35,3 +35,6 @@
 
 #### [Actividad 2.3: Ejercicios PHP y Bases de Datos](UD2/ejercicios/2_3)
 * [1. Login](UD2/ejercicios/2_3/e01.html)
+* [2. Catálogo de videojuegos](UD2/ejercicios/2_3/e02.php)
+* [3. Ampliación I](UD2/ejercicios/2_3/e03.php)
+* [4. Ampliación II](UD2/ejercicios/2_3/e04.php)
