@@ -42,25 +42,25 @@ if (isset($nombre) && isset($plataforma) && isset($anio)) {
     if ($modificar) {
         //Obtenemos los datos actuales del videojuego y los mostramos en el formulario
         $vj = get_videojuego($_GET['id']);
-        echo '<form action="?id=' . $vj->getId() . '" method="post">
+        echo '<form class="alta" action="?id=' . $vj->getId() . '" method="post">
         <label for="nombre">Nombre</label><br>
         <input type="text" name="nombre" value="' . $vj->getNombre() . '" required><br>
         <label for="plataforma">Plataforma</label><br>
         <input type="text" name="plataforma" value="' . $vj->getPlataforma() . '" required><br>
         <label for="anio">Año de lanzamiento</label><br>
-        <input type="number" name="anio" value="' . $vj->getAnio_lanzamiento() . '" required><br>
+        <input type="number" name="anio" id="anio" value="' . $vj->getAnio_lanzamiento() . '" required><br>
         <label for="genero">Género</label><br>
         <input type="text" name="genero" value="' . $vj->getGenero() . '"><br>
         <button type="submit">Registrar</button>
     </form>';
     } else {
-        echo '<form action="" method="post">
+        echo '<form class="alta" action="" method="post">
         <label for="nombre">Nombre</label><br>
         <input type="text" name="nombre" required><br>
         <label for="plataforma">Plataforma</label><br>
         <input type="text" name="plataforma" required><br>
         <label for="anio">Año de lanzamiento</label><br>
-        <input type="number" name="anio" required><br>
+        <input type="number" name="anio" id="anio" required><br>
         <label for="genero">Género</label><br>
         <input type="text" name="genero"><br>
         <button type="submit">Registrar</button>

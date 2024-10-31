@@ -37,36 +37,88 @@ table {
     background-color: cadetblue;
 }
 
-table{
-    border:1px solid grey;
+table {
+    border: 1px solid grey;
     border-collapse: collapse;
-    margin:auto;
+    margin: auto;
 }
 
 
-td{
-    border:1px solid grey;
+td {
+    border: 1px solid grey;
     padding-left: 5px;
     padding-right: 5px;
     padding-top: 3px;
     padding-bottom: 3px;
 }
 
-footer{
+footer {
     padding: 10px;
 }
 
-footer a{
-    display: inline-block;           
-    padding: 10px 20px;             
-    color: black;              
-    background-color: azure;      
-    text-decoration: none;           
-    border-radius: 5px;             
-    font-size: 16px;                
-    font-weight: bold;           
+footer a {
+    display: inline-block;
+    padding: 10px 20px;
+    color: black;
+    background-color: azure;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
 }
 
-footer a:hover{
-    background-color: cadetblue;          
+footer a:hover {
+    background-color: cadetblue;
+}
+
+.alta {
+    background-color: rgb(87, 241, 212);
+    border-radius: 10px;
+    margin: auto;
+    width: fit-content;
+    padding: 50px;
+    padding-top: 30px;
+    padding-right: 50px;
+    padding-bottom: 10px;
+    text-align: left;
+}
+
+.filtros{
+    display: ruby;
+}
+
+fieldset{
+    margin:auto;
+    width: fit-content;
+}
+
+input {
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border: 0;
+    border-radius: 5px;
+    background-color: rgb(235, 241, 247);
+    border-bottom: 1px solid gray;
+    padding: 5px;
+}
+button{
+    border: 0;
+    padding: 10px 20px;
+    color: black;
+    background-color: azure;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+    margin-left: auto;
+    margin-top: 30px;
+
+}
+
+button:hover {
+    background-color: cadetblue;
+}
+#anio{
+    width: 70px;
 }
