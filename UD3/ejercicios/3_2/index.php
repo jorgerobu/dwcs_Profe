@@ -46,12 +46,40 @@ function mostrar_resultado($mensaje)
             <a href="">Volver a jugar</a>
         </body>
         </html>';
-        echo $html;
+    echo $html;
 }
 
+/**
+ * Formatea una cantidad de segundos en la unidad mas adecuada.
+ *
+ * @param integer $segundos
+ * @return string con el tiempo formateado en la unidad más adecuada.
+ */
+function ajustar_tiempo(int $segundos){
+    $horas = 0;
+    $minutos = 0;
+    
+    while($segundos>60){
+        $minutos++;
+        $segundos-=60;
+    }
+    
+    while($minutos>60){
+        $horas++;
+        $minutos-=60;
+    }
+
+    //If ternario anidado. Piensalo un rato...
+    $time = $horas > 0 ? $horas." horas ".$minutos." min. ".$segundos." seg." : ($minutos > 0 ? $minutos." min. ".$segundos." seg." : $segundos." segundos"); 
+    return $time;
+}
+
+
+//Trabajamos con sesiones
+session_start();
 if (!isset($_SESSION['intentos'])) {
     //Estado 1: Empieza el juego
-    session_start();
+
     //Numero de intentos
     $_SESSION['intentos'] = 0;
     //Numero secreto a adivinar.
@@ -61,29 +89,27 @@ if (!isset($_SESSION['intentos'])) {
     mostrar_formulario();
 } else {
     //Estado 2: Jugando
-    if(isset($_POST['numero'])){
-        $_SESSION['intentos'] ++;
-        $intentos_left = MAX_INTENTOS-$_SESSION['intentos'];
+    if (isset($_POST['numero'])) {
+        $_SESSION['intentos']++;
+        $intentos_left = MAX_INTENTOS - $_SESSION['intentos'];
         //Si se ha pasado de los intentos el juego se termina.
-        if($intentos_left==0){
-            mostrar_resultado("Ohhh has agotado los intentos. El número era ".$_SESSION['numero']);
+        if ($intentos_left == 0) { //PIERDE (agota los intentos)
+            mostrar_resultado("Ohhh has agotado los intentos. El número era " . $_SESSION['numero']);
+        } else {
+            //Número del usuario filtrado.
+            $user_input = filter_var($_POST['numero'], FILTER_SANITIZE_NUMBER_INT);
+            //Comprobamos el número
+            if ($user_input > $_SESSION['numero']) {
+                mostrar_formulario("El número secreto es menor que $user_input te quedan $intentos_left intentos.");
+            } else if ($user_input < $_SESSION['numero']) {
+                mostrar_formulario("El número secreto es mayor que $user_input te quedan $intentos_left intentos.");
+            } else { //GANA
+                //En este caso son iguales. Se termina el juego ganando.
+                $tiempo = time() - $_SESSION['t_start'];
+                mostrar_resultado("Número $user_input correcto! Lo has logrado en " .$_SESSION['intentos']." intento tardando ".ajustar_tiempo($tiempo));
+            }
         }
-        //Número del usuario filtrado.
-        $user_input = filter_var($_POST['numero'],FILTER_SANITIZE_NUMBER_INT);
-        //Comprobamos el número
-        if($user_input > $_SESSION['numero']){
-            mostrar_formulario("El número secreto es menor que $user_input te quedan $intentos_left intentos.");
-
-        }else if($user_input < $_SESSION['numero']){
-            mostrar_formulario("El número secreto es mayor que $user_input te quedan $intentos_left intentos.");
-        }else{
-            //En este caso son iguales. Se termina el juego ganando.
-            $tiempo = time() - $_SESSION['t_start'];            
-            mostrar_resultado("Número $user_input correcto! Lo has logrado en ".$_SESSION['intentos']." $tiempo segundos.");
-        }
-
-    }else{
+    } else {
         mostrar_resultado("Se ha producido un error.");
     }
-
 }
