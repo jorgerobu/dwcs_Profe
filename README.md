@@ -45,6 +45,8 @@
 ### [Ejemplos](UD3/ejemplos)
 * [Cookie simple. Contar numero de accesos.](UD3/ejemplos/cookies.php)
 * [Almacenar estructuras de datos en una cookie.](UD3/ejemplos/cookies_arrays.php)
+* [Simon con cookies.](UD3/ejemplos/simon.php)
+* [Simon con sesiones.](UD3/ejemplos/simon_session.php)
 
 ### [Ejercicios](UD3/ejercicios)
 #### [Actividad 3.2: Juego del número secreto](UD3/ejercicios/3_2)
