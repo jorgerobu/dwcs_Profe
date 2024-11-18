@@ -93,7 +93,7 @@ if (!isset($_SESSION['intentos'])) {
         $_SESSION['intentos']++;
         $intentos_left = MAX_INTENTOS - $_SESSION['intentos'];
         //Si se ha pasado de los intentos el juego se termina.
-        if ($intentos_left == 0) { //PIERDE (agota los intentos)
+        if ($intentos_left < 0) { //PIERDE (agota los intentos)
             mostrar_resultado("Ohhh has agotado los intentos. El número era " . $_SESSION['numero']);
         } else {
             //Número del usuario filtrado.
