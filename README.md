@@ -47,3 +47,5 @@
 * [Almacenar estructuras de datos en una cookie.](UD3/ejemplos/cookies_arrays.php)
 
 ### [Ejercicios](UD3/ejercicios)
+#### [Actividad 3.2: Juego del número secreto](UD3/ejercicios/3_2)
+* [1. Juego con sesiones.](UD3/ejercicios/3_2/index.php)
