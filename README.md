@@ -38,3 +38,12 @@
 * [2. Catálogo de videojuegos](UD2/ejercicios/2_3/e02.php)
 * [3. Ampliación I](UD2/ejercicios/2_3/e03.php)
 * [4. Ampliación II](UD2/ejercicios/2_3/e04.php)
+
+# Unidad 3
+ > **Cookies** - **sesiones** - **seguridad**
+ 
+### [Ejemplos](UD3/ejemplos)
+* [Cookie simple. Contar numero de accesos.](UD3/ejemplos/cookies.php)
+* [Almacenar estructuras de datos en una cookie.](UD3/ejemplos/cookies_arrays.php)
+
+### [Ejercicios](UD3/ejercicios)
