@@ -12,7 +12,7 @@ CREATE TABLE PARTIDA(
     numero INT,
     intentos TINYINT UNSIGNED,
     tiempo INT UNSIGNED,
-    CONSTRAINT 'partida_pk ' PRIMARY KEY(id_usuario, numero),
-    CONSTRAINT 'partida_usuario_fk' FOREIGN KEY(id_usuario) 
+    CONSTRAINT partida_pk PRIMARY KEY(id_usuario, numero),
+    CONSTRAINT partida_usuario_fk FOREIGN KEY(id_usuario) 
         REFERENCES USUARIO(id_usuario) ON UPDATE CASCADE ON DELETE RESTRICT
 );
