@@ -1,11 +1,11 @@
 <?php
 //Vista
-include("../vista/login.php");
-include("../vista/jugar.php");
+$root = $_SERVER['DOCUMENT_ROOT'].'/ejercicios/3_2/ampliacion';
+include("$root/vista/login.php");
+include("$root/vista/jugar.php");
+include("$root/vista/error.php");
 //Modelo
-include('../modelo/partida.php');
-include('../modelo/usuario.php');
-include('../modelo/model.php');
+include("$root/modelo/model.php");
 
 define('MAX_NUM',1000);
 define('MAX_INTENTOS',10);
@@ -46,7 +46,7 @@ function jugar(){
         $intentos_left = MAX_INTENTOS - $_SESSION['intentos'];
         $vista = null;
         //Si se ha pasado de los intentos el juego se termina.
-        if ($intentos_left < 0) { //PIERDE (agota los intentos)
+        if ($intentos_left <= 0) { //PIERDE (agota los intentos)
             $vista = new Jugar(Estado::Pierde,$intentos_left,$_SESSION['numero']);
             //Destruir session.
             session_unset();
@@ -59,8 +59,7 @@ function jugar(){
             } else if ($user_input < $_SESSION['numero']) {
                 $vista = new Jugar(Estado::Mayor,$intentos_left,$_POST['numero']);
             } else { //GANA
-                //En este caso son iguales. Se termina el juego ganando.
-                $tiempo = time() - $_SESSION['t_start'];
+              
                 $vista = new Jugar(Estado::Gana,$intentos_left,$_POST['numero']);
                 //Guardar partida en la BD.
                 $partida = new Partida();
@@ -73,7 +72,7 @@ function jugar(){
             }
         }
     } else {
-        $vista = new Error();
+        $vista = new ErrorPage();
     }
 
     return $vista;
@@ -88,13 +87,14 @@ function login(){
     $vista = new Login();
     if(isset($_POST['nombre'])){
         //Creamos el usuario si no existe.
-        alta_usuario($_POST['nombre']);
+        alta_usuario(new Usuario($_POST['nombre']));
         //Obtenemos el id_usuario
         $usuario = get_usuario($_POST['nombre']);
 
         $_SESSION['usuario'] = $usuario->getId_usuario();
         $_SESSION['intentos'] = 0;
         $_SESSION['t_start'] = time();
+        
         $_SESSION['numero'] = rand(1, MAX_NUM);
         $vista = new Jugar(Estado::Vacio,MAX_INTENTOS,$_SESSION['numero']);
     }

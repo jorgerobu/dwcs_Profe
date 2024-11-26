@@ -32,6 +32,7 @@ class Jugar
             </head>
             <body>
                 <h1>Juego del número secreto</h1>
+                <h2>Adivina un número entre 1 y 1000</h2>
                 <form action="" method="post">
                     <label for="numero">Número</label><br>
                     <input  id ="numero" name="numero" type="number" min="1" maxlength="' . MAX_NUM . '">
@@ -59,7 +60,7 @@ class Jugar
         <body>
             <h1>Juego del número secreto</h1>
             <h2>' . $mensaje . '</h2>
-            <a href="">Volver a jugar</a>
+            <a href="?action=jugar">Volver a jugar</a>
         </body>
         </html>';
         echo $html;
@@ -69,19 +70,19 @@ class Jugar
     {
         switch ($this->est) {
             case Estado::Vacio:
-                mostrar_formulario();
+                $this->mostrar_formulario();
                 break;
             case Estado::Gana:
-                mostrar_resultado('El núemro '.$this->numero.' es correcto! Te han sobrado '.$this->intentos_left);
+                $this->mostrar_resultado('El núemro '.$this->numero.' es correcto! Te han sobrado '.$this->intentos_left.' intentos.');
                 break;
             case Estado::Pierde:
-                mostrar_resultado('Oooh. Has perdido el número era: '.$this->numero);
+                $this->mostrar_resultado('Oooh. Has perdido el número era: '.$this->numero);
                 break;
             case Estado::Mayor:
-                mostrar_formulario('El número secreto es mayor que '.$this->numero.'. Te quedan '.$this->intentos_left.' intentos.');
+                $this->mostrar_formulario('El número secreto es mayor que '.$this->numero.'. Te quedan '.$this->intentos_left.' intentos.');
                 break;
             case Estado::Menor:
-                mostrar_formulario('El número secreto es menor que '.$this->numero.'. Te quedan '.$this->intentos_left.' intentos.');
+                $this->mostrar_formulario('El número secreto es menor que '.$this->numero.'. Te quedan '.$this->intentos_left.' intentos.');
                 break;
             default:
                 echo "Se ha producido un error.";

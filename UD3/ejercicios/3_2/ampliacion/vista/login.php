@@ -17,6 +17,7 @@ class Login
                         <input type="text" id="nombre" name="nombre"><br>
                         <button type="submit">Empezar</button>
                     </form>
+                    <a href="?action=ranking">Ranking</a>
                 </body>
                 </html>';
     }

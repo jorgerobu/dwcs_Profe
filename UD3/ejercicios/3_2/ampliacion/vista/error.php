@@ -1,5 +1,5 @@
 <?php
-class Error
+class ErrorPage
 {
     private $mensaje;
 
