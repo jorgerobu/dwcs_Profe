@@ -5,6 +5,21 @@ session_start();
 if (isset($_SESSION['loged'])) {
     header("Location: restringido.php");
 }
+
+//Tenemos que establecer la cookie antes de generar nada de HTML.
+$nic_name = $_COOKIE['nic_name'] ?: '';
+//Si nos entra por POST
+if (isset($_POST['nic'])) {
+    //Comprobamos si ha marcado el check
+    if (isset($_POST['recuerda'])) {
+        setcookie("nic_name", $_POST['nic'], time() + 2592000);
+        $nic_name = $_POST['nic'];
+    } else {
+        //Si no ha marcado el check eliminamos la cookie
+        setcookie("nic_name", $_POST['nic'], time() - 100);
+        $nic_name = '';
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -31,7 +46,10 @@ if (isset($_SESSION['loged'])) {
     <fieldset>
         <form action="" method="post">
             <label for="nic">Nombre de usuario (nic)</label><br>
-            <input type="text" name="nic"><br>
+            <input type="text" name="nic" value=<?= $nic_name ?>>
+            <input type="checkbox" id="recuerda" name="recuerda" <?= $nic_name != '' ? 'checked' : '' ?>>
+            <label for="recuerda">Recuerdame</label>
+            <br>
             <label for="pass">Contraseña</label><br>
             <input type="password" name="pass"><br>
             <button type="submit">Acceder</button>
