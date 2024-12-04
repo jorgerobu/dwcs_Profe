@@ -41,10 +41,10 @@ if (isset($_POST['nic'])) {
             $_SESSION['loged'] = $_POST['nic'];
             //Evitamos que accedan a la cookie de sesión desde javascript
             $params = session_get_cookie_params();
-            //Eliminamos la cookie de sesion
-            setcookie(session_name(), session_id(), $params["lifetime"], $params["path"], $params["domain"], true, $params["httponly"]);
+
+            setcookie(session_name(), session_id(), $params["lifetime"], $params["path"], $params["domain"], true, true);
             //Creamos la cookie que caducara en 10 minutos.
-            setcookie("t_reset", "on", time() + 600, "", "", true);
+            setcookie("t_reset", "on", time() + 6, "", "", true,true);
             header("Location: restringido.php");
         } else {
             echo '<h2 style="color:white;background-color:red;">Login incorrecto</h2>';
