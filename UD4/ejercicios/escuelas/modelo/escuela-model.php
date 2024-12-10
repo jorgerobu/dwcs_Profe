@@ -87,7 +87,7 @@ class Escuela{
      */ 
     public function setHora_apertura($hora_apertura)
     {
-        $this->hora_apertura = $hora_apertura;
+        $this->hora_apertura = new DateTime($hora_apertura);
 
         return $this;
     }
@@ -107,7 +107,7 @@ class Escuela{
      */ 
     public function setHora_cierre($hora_cierre)
     {
-        $this->hora_cierre = $hora_cierre;
+        $this->hora_cierre = new DateTime($hora_cierre);
 
         return $this;
     }
@@ -194,8 +194,8 @@ class EscuelaModel{
         $sql = "SELECT cod_escuela, e.nombre, direccion, hora_apertura, hora_cierre, comedor, 
                        m.cod_municipio, m.nombre AS muni, m.latitud, m.longitud, m.altitud, m.cod_provincia  
                 FROM escuela e INNER JOIN municipio m ON m.cod_municipio = e.cod_municipio 
-                WHERE (? IS NULL OR m.cod_municipio = ?) 
-                nombre LIKE ?";
+                WHERE (? IS NULL OR m.cod_municipio = ?) AND
+                 e.nombre LIKE ?";
         $statement = $db->prepare($sql);
         $statement->bindValue(1,$cod_municipio, PDO::PARAM_INT);
         $statement->bindValue(2,$cod_municipio, PDO::PARAM_INT);

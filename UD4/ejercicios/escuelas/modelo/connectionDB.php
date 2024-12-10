@@ -9,7 +9,7 @@ class ConnectionDB{
     public static function get(){
         if(!isset(self::$pdo)){
             try {
-                $pdo = new PDO(dsn, user, pass);
+                self::$pdo = new PDO(dsn, user, pass);
             } catch (PDOException $th) {
                 error_log($th->getMessage());
             }
