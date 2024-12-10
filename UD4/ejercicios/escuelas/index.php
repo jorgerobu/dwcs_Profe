@@ -1,6 +1,5 @@
 <?php
-include('articlesController.php');
-include('errorController.php');
+include("controlador/escuela-controller.php");
 //Controlador por defecto.
 $controller = 'EscuelaController';
 //Acción por defecto.
@@ -11,10 +10,8 @@ if(isset($_REQUEST['controller'])){
     try{
         $objeto = new $controller();
     }catch(\Throwable $th){
-        $controller = 'ErrorController';
-        $objeto->$action();
-        $objeto->showControllerNotFound();
-        die();
+        error_log("Cargando controlador inexistente: ".$controller);
+        $controller = 'EscuelaController';
     }
 }
 
@@ -24,16 +21,11 @@ if(isset($_REQUEST['action'])){
         $objeto->$action();
         
     } catch (\Throwable $th) {
-        $controller = 'ErrorController';
-        $objeto = new $controller();
-        $objeto->showActionNotFound();
-        die();
+        error_log("Cargando accion inexistente: ".$action);
+        $controller = 'EscuelaController';
+        $action = 'listar_escuelas';
     }
     
 }
 $objeto = new $controller();
 $objeto->$action();
-
-
-
-
