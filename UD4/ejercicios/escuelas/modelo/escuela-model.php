@@ -75,8 +75,12 @@ class Escuela{
     /**
      * Get the value of hora_apertura
      */ 
-    public function getHora_apertura()
+    public function getHora_apertura($formated=true)
     {
+        if($formated){
+           return $this->hora_apertura->format('H:i');
+        }
+
         return $this->hora_apertura;
     }
 
@@ -87,7 +91,12 @@ class Escuela{
      */ 
     public function setHora_apertura($hora_apertura)
     {
-        $this->hora_apertura = new DateTime($hora_apertura);
+        //Comprobamos si nos pasan un objeto DateTime o un string que representa un DateTime.
+        if($hora_apertura instanceof DateTime){
+            $this->hora_apertura = $hora_apertura;
+        }else{
+            $this->hora_apertura = new DateTime($hora_apertura);
+        }        
 
         return $this;
     }
@@ -95,8 +104,12 @@ class Escuela{
     /**
      * Get the value of hora_cierre
      */ 
-    public function getHora_cierre()
+    public function getHora_cierre($formated=true)
     {
+        if($formated){
+           return $this->hora_cierre->format('H:i');
+        }
+
         return $this->hora_cierre;
     }
 
@@ -107,7 +120,11 @@ class Escuela{
      */ 
     public function setHora_cierre($hora_cierre)
     {
-        $this->hora_cierre = new DateTime($hora_cierre);
+        if($hora_cierre instanceof DateTime){
+            $this->hora_cierre = $hora_cierre;
+        }else{
+            $this->hora_cierre = new DateTime($hora_cierre);
+        }        
 
         return $this;
     }
@@ -195,7 +212,7 @@ class EscuelaModel{
                        m.cod_municipio, m.nombre AS muni, m.latitud, m.longitud, m.altitud, m.cod_provincia  
                 FROM escuela e INNER JOIN municipio m ON m.cod_municipio = e.cod_municipio 
                 WHERE (? IS NULL OR m.cod_municipio = ?) AND
-                 e.nombre LIKE ?";
+                 e.nombre LIKE ? ORDER BY m.nombre, e.nombre DESC";
         $statement = $db->prepare($sql);
         $statement->bindValue(1,$cod_municipio, PDO::PARAM_INT);
         $statement->bindValue(2,$cod_municipio, PDO::PARAM_INT);
