@@ -1,7 +1,7 @@
 <?php
 
-include("municipio-model.php");
-include("connectionDB.php");
+include_once("municipio-model.php");
+include_once("connectionDB.php");
 class Escuela{
     private string $nombre;
     private int $codigo;

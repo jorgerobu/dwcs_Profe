@@ -1,4 +1,5 @@
 <?php
+include_once("connectionDB.php");
 class Municipio{
     private int $codigo;
     private string $nombre;
@@ -136,5 +137,62 @@ class Municipio{
         $this->cod_provincia = $cod_provincia;
 
         return $this;
+    }
+}
+
+class MunicipioModel{
+    public static function get_municipios($cod_provincia=null){
+        $db = ConnectionDB::get();
+        $sql = "SELECT cod_municipio, cod_provincia, nombre, latitud, longitud, altitud 
+                FROM municipio WHERE ? IS NULL OR cod_provincia = ? ORDER BY nombre ASC";
+        $statement = $db->prepare($sql);
+        $statement->bindValue(1,$cod_provincia);
+        $statement->bindValue(2,$cod_provincia);
+
+        $municipios = [];
+        try {
+            $statement->execute();
+            foreach($statement as $row){
+                $municipio = new Municipio($row['cod_municipio'],$row['nombre'],$row['longitud'], $row['latitud'], $row['altitud'], $row['cod_provincia']);
+                $municipios[] = $municipio;
+            }
+        } catch (PDOException $th) {
+            error_log("Error obteniendo escuelas ".$th->getMessage());
+        }finally{
+            $statement = null;
+            $db = null;
+        }
+
+        return $municipios;
+    }
+
+
+    /**
+     * Devuelve los municipios con escuelas.
+     */
+    public static function get_municipios_escuelas($cod_provincia=null){
+        $db = ConnectionDB::get();
+        $sql = "SELECT DISTINCT m.cod_municipio, m.cod_provincia, m.nombre, m.latitud, m.longitud, m.altitud 
+                FROM municipio m INNER JOIN escuela e ON e.cod_municipio = m.cod_municipio
+                WHERE ? IS NULL OR cod_provincia = ? ORDER BY nombre ASC";
+        $statement = $db->prepare($sql);
+        $statement->bindValue(1,$cod_provincia);
+        $statement->bindValue(2,$cod_provincia);
+
+        $municipios = [];
+        try {
+            $statement->execute();
+            foreach($statement as $row){
+                $municipio = new Municipio($row['cod_municipio'],$row['nombre'],$row['longitud'], $row['latitud'], $row['altitud'], $row['cod_provincia']);
+                $municipios[] = $municipio;
+            }
+        } catch (PDOException $th) {
+            error_log("Error obteniendo escuelas ".$th->getMessage());
+        }finally{
+            $statement = null;
+            $db = null;
+        }
+
+        return $municipios;
     }
 }

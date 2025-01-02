@@ -11,19 +11,20 @@
 <body>
     <!-- AQUI EL HEADER -->
     <fieldset>
-        <form action="" method="POST">
+        <form action="?controller=escuela-controller&action=listar-escuelas" method="POST">
             <label for="municipio">Municipio</label>
             <select id="municipio" name="municipio">
+                <option value="">Todos los municipios</option>
                 <?php
                 foreach ($data['municipios'] as $m) {
-                    echo '<option value="' . $m->getCodigo() . '">';
+                    echo '<option value="' . $m->getCodigo() .'" '.($m->getCodigo()==$data['filter_municipio']?'selected ':''). '>';
                     echo $m->getNombre();
                     echo '</option>';
                 }
                 ?>
             </select>
             <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre">
+            <input type="text" id="nombre" name="nombre" value=<?= $data['filter_nombre'] ?>>
             <button type="submit">Buscar</button>
         </form>
     </fieldset>
