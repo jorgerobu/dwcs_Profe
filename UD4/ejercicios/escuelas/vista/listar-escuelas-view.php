@@ -6,6 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="<?=STYLE_PATH.'style.css'?>" rel="stylesheet">
     <title>Escuelas</title>
+
+    <?php
+        if(isset($data['eliminar'])){
+            $alerta_matriculas = $data['eliminar']['matriculas']>0?'Se perderán las '.$data['eliminar']['matriculas'].' matrículas de alumnos asociadas. ':'';
+            echo "<script> res =confirm('Está a punto de eliminar la escuela \"".$data['eliminar']['escuela']->getNombre()."\". ".$alerta_matriculas."¿Desea continuar?');
+            if(res){
+                window.location.href = '?controller=EscuelaController&action=eliminar_escuela';
+            }
+            </script>";
+        }
+    ?>
 </head>
 
 <body>
@@ -47,7 +58,7 @@
             echo '<td>' . $esc->getHora_cierre() . '</td>';
             echo '<td><img class="list-icon" src="' .IMG_PATH. ($esc->getComedor() ? "comedor-icon.png" : "no-comedor-icon.png") . '"/></td>';
             echo '<td>' . $esc->getMunicipio()->getNombre() . '</td>';
-            echo '<td></td>';
+            echo '<td><a href="?controller=EscuelaController&action=baja_escuela&cod_escuela='.$esc->getCodigo().'">Eliminar</a></td>';
             echo '</tr>';
         }
         ?>
