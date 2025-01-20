@@ -10,7 +10,9 @@ class Cliente{
 
     public function __construct(string $nombre, string $apellidos, string $telefono, string $mail, int $id = null)
     {
-        $this->id_cliente = $id; 
+        if(isset($id)){
+            $this->id_cliente = $id; 
+        }
         $this->nombre = $nombre; 
         $this->apellidos = $apellidos; 
         $this->telefono = $telefono;
@@ -125,7 +127,7 @@ class ClienteModel{
     public static function getClientes():array{
         $clientes = [];
         $pdo = ConexionDB::getConnexion();
-        $sql = "SELECT cod_cliente, nombre, apellidos, telefono, mail FROM cliente;";
+        $sql = "SELECT cod_cliente, nombre, apellidos, telefono, mail FROM cliente";
 
         try {
             $statement = $pdo->query($sql);
@@ -144,6 +146,30 @@ class ClienteModel{
             $statement = null;
         }
         return $clientes;
+    }
+
+    public static function insertarCliente(Cliente $c){
+        $toret = false;
+        $pdo = ConexionDB::getConnexion();
+        $sql = "INSERT INTO cliente(nombre, apellidos, telefono, mail) VALUES (?,?,?,?)";
+
+        try {
+            $statement = $pdo->prepare($sql);
+            $statement->bindValue(1,$c->getNombre(),PDO::PARAM_STR);
+            $statement->bindValue(2,$c->getApellidos(),PDO::PARAM_STR);
+            $statement->bindValue(3,$c->getTelefono());
+            $statement->bindValue(4,$c->getMail());
+            // $statement->debugDumpParams();
+            $toret = $statement->execute();
+
+        } catch (PDOException $th) {
+            error_log("Error obteniendo clientes de la BD. ".$th->getMessage());
+            $toret = false;
+        }finally{
+            $pdo = null;
+            $statement = null;
+        }
+        return $toret;
     }
     
 }
