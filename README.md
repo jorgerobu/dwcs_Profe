@@ -71,3 +71,15 @@
 
 ### [Ejercicios](UD4/ejercicios)
 #### [CRUD Escuelas infantiles con MVC](UD4/ejercicios/escuelas)
+
+# Unidad 5
+ > **Laravel**
+ 
+### [Ejemplos](UD5/ejemplos/prueba)
+ > Proyecto de Laravel con ejemplos de:
+ > * Manejo del enrutador
+ > * Acceso a controladores.
+ > * Creación de vistas con Blade.
+ > * Migraciones
+ > * Mapeos 1:N y N:M en el modelo con Eloquent.
+ 
