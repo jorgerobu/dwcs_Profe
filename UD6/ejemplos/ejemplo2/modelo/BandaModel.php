@@ -1,5 +1,35 @@
 <?php
 include_once("Model.php");
+
+class Banda extends ModelObject{
+
+    public $id;
+    public $nombre;
+    public $numIntegrantes;
+    public $nacionalidad;
+    public $genero;
+
+    function __construct($nombre, $numIntegrantes, $nacionalidad, $genero, $id=null){
+        $this->nombre = $nombre;
+        $this->numIntegrantes = $numIntegrantes;
+        $this->nacionalidad = $nacionalidad;
+        $this->genero = $genero;
+        $this->id = $id;
+    }
+
+    public function fromJson($json):ModelObject{
+        $data = json_decode($json);
+        return new Banda($data->nombre, $data->numIntegrantes, $data->nacionalidad, $data->genero, $data->id);
+    }
+
+
+    public function toJson():String{
+        return json_encode($this,JSON_PRETTY_PRINT);
+    }
+
+}
+
+
 class BandaModel extends Model
 {
 
@@ -10,7 +40,11 @@ class BandaModel extends Model
         $resultado = [];
         try {
             $statement = $pdo->query($sql);
-            $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $resultado = array();
+            foreach($statement as $b){
+                $banda = new Banda($b['nombre'],$b['num_integrantes'],$b['nacionalidad'],$b['genero'], $b['id']);
+                $resultado[] = $banda;
+            }
         } catch (PDOException $th) {
             error_log("Error BandaModel->getAll()");
             error_log($th->getMessage());
@@ -31,8 +65,9 @@ class BandaModel extends Model
             $statement = $pdo->prepare($sql);
             $statement->bindValue(1, $bandaId, PDO::PARAM_INT);
             $statement->execute();
-            $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $th) {
+            $b = $statement->fetch();
+            $resultado = new Banda($b['nombre'],$b['num_integrantes'],$b['nacionalidad'],$b['genero'], $b['id']);
+        } catch (Throwable $th) {
             error_log("Error BandaModel->get($bandaId)");
             error_log($th->getMessage());
         } finally {

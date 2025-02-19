@@ -14,7 +14,7 @@ class ControllerException extends Exception{
     }
 }
 
-class Controller
+abstract class Controller
 {
 
     public static function sendNotFound($mensaje)
@@ -27,7 +27,7 @@ class Controller
 
     public static function getController($nombre): Controller
     {
-        $controller = new Controller();
+        $controller = null;
         switch ($nombre) {
             case CONTROLLER_BANDA:
                 $controller = new BandaController();
@@ -43,4 +43,9 @@ class Controller
         }
         return $controller;
     }
+
+    public abstract function get($id);
+    public abstract function getAll();
+    public abstract function delete($id);
+    public abstract function update($id, $object);
 }
