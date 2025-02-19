@@ -83,3 +83,10 @@
  > * Migraciones
  > * Mapeos 1:N y N:M en el modelo con Eloquent.
  
+# Unidad 6
+ > **SERVICIOS WEB**
+ 
+### [Ejemplos](UD6/ejemplos)
+* [API REST full simple. Programación estructurada.](UD6/ejemplos/ejemplo1)
+
+### [Ejercicios](UD6/ejercicios)
