@@ -53,7 +53,6 @@ class BandaController extends Controller{
             Controller::sendNotFound("No se ha podido modificar");
         }
         
-        
     }
 
 }
