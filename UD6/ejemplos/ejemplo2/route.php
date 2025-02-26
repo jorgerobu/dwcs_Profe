@@ -8,14 +8,13 @@ include_once("controlador/Controller.php");
 $metodo = $_SERVER["REQUEST_METHOD"];
 $uri = $_SERVER["REQUEST_URI"];
 $uri = explode("/", $uri);
-var_dump($uri);
 $elemento = $uri[3];
 $id = null;
 
 try {
     $controlador = Controller::getController($elemento);
 } catch (ControllerException $th) {
-    Controller::sendNotFound("Error obteniendo el elemento ".$elemento);
+    Controller::sendNotFound("Error obteniendo el elemento " . $elemento);
     die();
 }
 
@@ -31,12 +30,31 @@ if (count($uri) == 5) {
 //TODO
 switch ($metodo) {
     case 'POST':
+        $json = file_get_contents('php://input');
+        $controlador->insert($json);
         break;
     case 'GET':
+        if (isset($id)) {
+            $controlador->get($id);
+        } else {
+            $controlador->getAll();
+        }
         break;
     case 'DELETE':
+        if (isset($id) && is_int($id)) {
+            $controlador->delete($id);
+        } else {
+            Controller::sendNotFound("Es necesario indicar el id correcto de la banda a eliminar.");
+        }
         break;
-    case 'UPDATE':
+    case 'PUT':
+        if (isset($id) && is_int($id)) {
+            $json = file_get_contents('php://input');
+            $controlador->update($id, $json);
+        } else {
+            Controller::sendNotFound("Es necesario indicar el id correcto de la banda a actualizar.");
+        }
+
         break;
     default:
         Controller::sendNotFound("Método HTTP no disponible.");

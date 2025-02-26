@@ -1,5 +1,6 @@
 <?php
 include_once("Model.php");
+include_once("ModelObject.php");
 
 class Banda extends ModelObject{
 
@@ -17,7 +18,7 @@ class Banda extends ModelObject{
         $this->id = $id;
     }
 
-    public function fromJson($json):ModelObject{
+    public static function fromJson($json):ModelObject{
         $data = json_decode($json);
         return new Banda($data->nombre, $data->numIntegrantes, $data->nacionalidad, $data->genero, $data->id);
     }
@@ -56,17 +57,19 @@ class BandaModel extends Model
         return $resultado;
     }
 
-    public function get($bandaId)
+    public function get($bandaId):Banda|null
     {
         $sql = "SELECT * FROM banda WHERE id=?";
         $pdo = self::getConnection();
-        $resultado = [];
+        $resultado = null;
         try {
             $statement = $pdo->prepare($sql);
             $statement->bindValue(1, $bandaId, PDO::PARAM_INT);
             $statement->execute();
-            $b = $statement->fetch();
-            $resultado = new Banda($b['nombre'],$b['num_integrantes'],$b['nacionalidad'],$b['genero'], $b['id']);
+            if($b = $statement->fetch()){
+                $resultado = new Banda($b['nombre'],$b['num_integrantes'],$b['nacionalidad'],$b['genero'], $b['id']);
+            }
+            
         } catch (Throwable $th) {
             error_log("Error BandaModel->get($bandaId)");
             error_log($th->getMessage());
@@ -86,13 +89,13 @@ class BandaModel extends Model
         $resultado = false;
         try {
             $statement = $pdo->prepare($sql);
-            $statement->bindValue(":nombre", $banda['nombre'], PDO::PARAM_STR);
-            $statement->bindValue(":integrantes", $banda['num_integrantes'], PDO::PARAM_INT);
-            $statement->bindValue(":genero", $banda['genero'], PDO::PARAM_STR);
-            $statement->bindValue(":nacionalidad", $banda['nacionalidad'], PDO::PARAM_STR);
+            $statement->bindValue(":nombre", $banda->nombre, PDO::PARAM_STR);
+            $statement->bindValue(":integrantes", $banda->numIntegrantes, PDO::PARAM_INT);
+            $statement->bindValue(":genero", $banda->genero, PDO::PARAM_STR);
+            $statement->bindValue(":nacionalidad", $banda->nacionalidad, PDO::PARAM_STR);
             $resultado = $statement->execute();
         } catch (PDOException $th) {
-            error_log("Error BandaModel->insert(" . implode(",", $banda) . ")");
+            error_log("Error BandaModel->insert(" . $banda->toJson. ")");
             error_log($th->getMessage());
         } finally {
             $statement = null;
@@ -104,7 +107,7 @@ class BandaModel extends Model
 
     public function update($banda, $bandaId)
     {
-        // $sql = "INSERT INTO banda(nombre, num_integrantes,genero, nacionalidad) VALUES (:nombre, :integrantes, :genero, :nacionalidad)";
+ 
         $sql = "UPDATE banda SET
             nombre=:nombre,
             num_integrantes=:integrantes,
@@ -116,13 +119,14 @@ class BandaModel extends Model
         $resultado = false;
         try {
             $statement = $pdo->prepare($sql);
-            $statement->bindValue(":nombre", $banda['nombre'], PDO::PARAM_STR);
-            $statement->bindValue(":integrantes", $banda['num_integrantes'], PDO::PARAM_INT);
-            $statement->bindValue(":genero", $banda['genero'], PDO::PARAM_STR);
-            $statement->bindValue(":nacionalidad", $banda['nacionalidad'], PDO::PARAM_STR);
+            $statement->bindValue(":nombre", $banda->nombre, PDO::PARAM_STR);
+            $statement->bindValue(":integrantes", $banda->numIntegrantes, PDO::PARAM_INT);
+            $statement->bindValue(":genero", $banda->genero, PDO::PARAM_STR);
+            $statement->bindValue(":nacionalidad", $banda->nacionalidad, PDO::PARAM_STR);
             $statement->bindValue(":id", $bandaId, PDO::PARAM_INT);
 
             $resultado = $statement->execute();
+            $resultado = $statement->rowCount() == 1;
         } catch (PDOException $th) {
             error_log("Error BandaModel->update(" . implode(",", $banda) . ", $bandaId)");
             error_log($th->getMessage());

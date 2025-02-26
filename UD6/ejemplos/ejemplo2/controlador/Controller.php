@@ -1,4 +1,8 @@
 <?php
+include_once("BandaController.php");
+include_once("DiscoController.php");
+include_once("PistaController.php");
+
 
 /**
  * Definicion de los nombres asociados a cada controlador en la URI.
@@ -48,4 +52,7 @@ abstract class Controller
     public abstract function getAll();
     public abstract function delete($id);
     public abstract function update($id, $object);
+    public abstract function insert($object);
+
+
 }
