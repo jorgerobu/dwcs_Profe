@@ -1,6 +1,18 @@
 <?php
 include_once("globals.php");
 include_once("controlador/Controller.php");
+
+function getIds(array $uri):array{
+    $ids = [];
+    for($i=count($uri)-1;$i>=0;$i--){
+        if(intval($uri[$i])){
+            $ids[] = $uri[$i];
+        }
+    }
+    return array_reverse($ids);
+}
+
+
 /**
  * Este fichero captura todas la peticiones a nuestra aplicación.
  * Aqui se parsea la uri para decidir el controlador y la acción que debemos ejecutar.
@@ -18,16 +30,16 @@ try {
     die();
 }
 
-if (count($uri) == 5) {
+if (count($uri) >= 5) {
     try {
-        $id = intval($uri[4]);
+        $id = getIds($uri);
     } catch (Throwable $th) {
 
         Controller::sendNotFound("Error en la peticion. El parámetro debe ser un id correcto.");
         die();
     }
 }
-//TODO
+
 switch ($metodo) {
     case 'POST':
         $json = file_get_contents('php://input');
@@ -41,14 +53,14 @@ switch ($metodo) {
         }
         break;
     case 'DELETE':
-        if (isset($id) && is_int($id)) {
+        if (isset($id) ) {
             $controlador->delete($id);
         } else {
             Controller::sendNotFound("Es necesario indicar el id correcto de la banda a eliminar.");
         }
         break;
     case 'PUT':
-        if (isset($id) && is_int($id)) {
+        if (isset($id) ) {
             $json = file_get_contents('php://input');
             $controlador->update($id, $json);
         } else {
