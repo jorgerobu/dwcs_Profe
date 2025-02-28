@@ -6,13 +6,15 @@
     <title>Login</title>
 </head>
 <body>
+    <?php include("errores.php"); ?>
     <fieldset>
-        <form action="" method="post">
+        <form action="?controller=user&action=checkLogin" method="post">
             <label for="user">Usuario</label>
             <input name="user" type="text" id="user">
-            <label for="user">Contraseña</label>
+            <label for="pass">Contraseña</label>
             <input name="pass" type="password" id="pass">
             <button type="submit">Acceder</button>
+            <a href="?controller=user&action=signin">Registrarse</a>
         </form>
     </fieldset>
 </body>

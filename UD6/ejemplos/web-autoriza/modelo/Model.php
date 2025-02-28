@@ -2,11 +2,11 @@
 namespace webautoriza\model;
 use PDO;
 use PDOException;
-define('DB_DSN','');
-define('DB_USER','');
-define('DB_PASS','');
+define('DB_DSN','mysql:host=mariadb;dbname=control_acceso');
+define('DB_USER','root');
+define('DB_PASS','bitnami');
 class Model{
-    protected function getConexion():PDO{
+    protected static function getConexion():PDO{
         try{
             $pdo = new PDO(DB_DSN,DB_USER, DB_PASS);
         }catch(PDOException $th){

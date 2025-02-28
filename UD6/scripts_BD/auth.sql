@@ -7,7 +7,7 @@ CREATE TABLE usuario(
     apellido1 VARCHAR(50) NOT NULL,
     apellido2 VARCHAR(50),
     user VARCHAR(50) NOT NULL UNIQUE,
-    pass CHAR(64) NOT NULL COMMENT 'Clabe codificada SHA56 Hexadecimal',
+    pass CHAR(64) NOT NULL COMMENT 'Clave codificada SHA56 Hexadecimal',
     email VARCHAR(200) NOT NULL UNIQUE
 
 );

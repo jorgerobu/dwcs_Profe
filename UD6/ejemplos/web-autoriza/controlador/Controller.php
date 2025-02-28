@@ -5,13 +5,29 @@ require_once(PATH_VISTA."View.php");
 use webautoriza\vista\View;
 class Controller{
 
+    static $controllers = [
+        'user'=>'webautoriza\\controlador\\UserController',
+        'token' => 'webautoriza\\controlador\\TokenController'
+    ];
+
     protected $view;
     public function __construct()
     {
         $this->view = new View();
     }
 
-    public static function getController($name){
-        return new $name();
+    /**
+     * Si no está logueado redirige a la página de login
+     */
+    public function noLoggedRedirect($name){
+        header('Location: /');
+    }
+
+    public static function getController($nombre){
+        if(array_key_exists($nombre,self::$controllers)){
+            $object = self::$controllers[$nombre];
+            return new $object();
+        }
+        return null;
     }
 }
