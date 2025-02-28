@@ -1,4 +1,7 @@
 <?php
+namespace webautoriza\model;
+use PDO;
+use PDOException;
 define('DB_DSN','');
 define('DB_USER','');
 define('DB_PASS','');
