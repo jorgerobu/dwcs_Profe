@@ -19,8 +19,12 @@ class Controller{
     /**
      * Si no está logueado redirige a la página de login
      */
-    public function noLoggedRedirect($name){
-        header('Location: /');
+    public function noLoggedRedirect(){
+        if(!isset($_SESSION['loged'])){
+            header('Location: '.PATH_ROOT);
+            die();
+        }
+        
     }
 
     public static function getController($nombre){

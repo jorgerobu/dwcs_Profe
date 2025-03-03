@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Tokens</title>
 </head>
 
 <body>
@@ -26,33 +26,22 @@
                 <th>DELETE</th>
             </tr>
             <?php
-                foreach($data['tokens'] as $token){
-                    echo '<tr>';
-                    echo '<td class="token">'.$token->token.'</td>';
-                    echo '<td class="caducidad">'.$token->caducidad.'</td>';
-                    echo '<td class="get">';
-                    foreach($token->get as $endpoint){
+            foreach ($data['tokens'] as $token) {
+                echo '<tr>';
+                echo '<td class="token">' . $token->token . '</td>';
+                echo '<td class="caducidad">' . $token->caducidad . '</td>';
+                foreach ($toke->permisos as $permiso => $endpoints) {
+                    echo '<td>';
+                    foreach ($endpoints as $endpoint) {
                         echo "$endpoint ";
                     }
                     echo '</td>';
-                    echo '<td class="post">';
-                    foreach($token->post as $endpoint){
-                        echo "$endpoint ";
-                    }
-                    echo '</td>';
-                    echo '<td class="put">';
-                    foreach($token->put as $endpoint){
-                        echo "$endpoint ";
-                    }
-                    echo '</td>';
-                    echo '<td class="delete">';
-                    foreach($token->delete as $endpoint){
-                        echo "$endpoint ";
-                    }
-                    echo '</td>';
-                    echo '<td class="remove_token"><a herf="?controller=token&action=deleteToken&id='.$token->token.'">X</a></td>';
-                    echo '</tr>';
                 }
+
+
+                echo '<td class="remove_token"><a herf="?controller=token&action=deleteToken&id=' . $token->token . '">X</a></td>';
+                echo '</tr>';
+            }
             ?>
         </table>
     <?php endif ?>

@@ -13,11 +13,18 @@ class UserController extends Controller
 
     public function login()
     {
+        //Si ya esta logueado lo enviamos a 
         $this->view->show('login');
     }
 
     public function checkLogin()
     {
+        //Si ya está logueado lo enviamos al listado de tokens.
+        if (isset($_SESSION['loged'])) {
+            header('Location: ' . PATH_ROOT . '?controller=token&action=getTokens');
+            die();
+        }
+
         if (!isset($_POST['user']) || empty($_POST['user']) || !isset($_POST['pass']) || empty($_POST['pass'])) {
             $data['errores'] = ['Los campos usuario y contraseña son obligatorios'];
             $this->view->show('login', $data);
@@ -25,7 +32,7 @@ class UserController extends Controller
             $usr = UsuarioModel::getUserByPass($_POST['user'], $_POST['pass']);
             if ($usr) {
                 $_SESSION['loged'] = $usr;
-                header('Location: '.PATH_ROOT);
+                header('Location: ' . PATH_ROOT . '?controller=token&action=getTokens');
             } else {
                 $data['errores'] = ['El usuario y/o la contraseña no son correctos.'];
                 $this->view->show('login', $data);
@@ -94,8 +101,10 @@ class UserController extends Controller
 
         //Registrar el usuario si no hay errores.
         $vista = 'signin';
-        if(count($errores) == 0
-        && UsuarioModel::addUser($_POST['nombre'],$_POST['apellido1'], $_POST['apellido2'], $_POST['email'],$_POST['user'], $_POST['pass'])){
+        if (
+            count($errores) == 0
+            && UsuarioModel::addUser($_POST['nombre'], $_POST['apellido1'], $_POST['apellido2'], $_POST['email'], $_POST['user'], $_POST['pass'])
+        ) {
             $vista = 'login';
         }
 
