@@ -26,6 +26,7 @@ class TokenController extends Controller{
             $tokens[$i]->permisos = $permisos;
         }
         $data['datos_usr'] = $_SESSION['loged']->nombre." ".$_SESSION['loged']->apellido1;
+        $data['permisos'] = PermisoModel::getPermisos();
         $data['tokens'] = $tokens;
         $this->view->show('tokens',$data);
 
@@ -35,10 +36,8 @@ class TokenController extends Controller{
         
         $data = [];
         $data['endpoints'] = EndpointModel::getEndpoints();
-        $permisos = PermisoModel::getPermisos();
-        foreach($permisos as $permiso){
-            $data[$permiso->nombre] = $permiso->id;
-        }
+        $data['permisos'] = PermisoModel::getPermisos();
+        
         $data['datos_usr'] = $_SESSION['loged']->nombre." ".$_SESSION['loged']->apellido1;
         $this->view->show('alta-token',$data);
        
@@ -52,15 +51,13 @@ class TokenController extends Controller{
                 $permisos[$ep->id] = $_POST[$ep->id];
             }
         }
-        $token = TokenModel::addToken($_SESSION['loged']->id, $permisos);
-        if($token){
-            echo $token;
-        }else{
-            echo "No se ha podido generar el token.";
-        }
+        $token = TokenModel::addToken($_SESSION['loged']->id, $permisos, $_POST['caducidad']);
+        header("location: ".PATH_ROOT."?controller=token&action=getTokens");
     }
 
     public function deleteToken(){
-        
+        if(TokenModel::deleteToken($_GET['token'])){
+            header("location: ".PATH_ROOT."?controller=token&action=getTokens");
+        }
     }
 }

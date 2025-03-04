@@ -115,6 +115,6 @@ class UserController extends Controller
     {
         session_unset();
         session_destroy();
-        header('Location: /');
+        header('Location: '.PATH_ROOT);
     }
 }

@@ -59,18 +59,19 @@ class TokenModel extends Model
      * @param endPoints Es un array cuya clave es el id de cada endpoint y el valor es un array con los id de los permisos que 
      * se dan sobre ese endpoint. Ej. ['1'=>[2,3],'2'=[1,2,3,4]]
      */
-    public static function addToken($userId, $endpoints): false | string
+    public static function addToken($userId, $endpoints, $caducidad): false | string
     {
         //Generamos el token de 16 Bytes.
         $bytes = random_bytes(16);
         $token = bin2hex($bytes);
-        $sql = "INSERT INTO token(token, usuario_id) VALUES ('$token',:userId)";
+        $sql = "INSERT INTO token(token, usuario_id, caducidad) VALUES ('$token',:userId, :caducidad)";
         $pdo = self::getConexion();
         $pdo->beginTransaction();
         $resultado = false;
         try {
             $statement = $pdo->prepare($sql);
             $statement->bindValue(':userId', $userId);
+            $statement->bindValue(':caducidad', $caducidad);
             $statement->execute();
             $resultado = $statement->rowCount() == 1;
             if ($resultado) {
@@ -101,6 +102,26 @@ class TokenModel extends Model
             error_log($th->getMessage());
             $pdo->rollBack();
             $resultado = false;
+        } finally {
+            $statement = null;
+            $pdo = null;
+        }
+
+        return $resultado;
+    }
+
+    public static function deleteToken($token): bool
+    {
+        $sql = "DELETE FROM token where token = :token";
+        $pdo = self::getConexion();
+        $resultado = false;
+        try {
+            $statement = $pdo->prepare($sql);
+            $statement->bindValue(':token', $token);
+            $statement->execute();
+            $resultado = $statement->rowCount() == 1;
+        } catch (\PDOException $th) {
+            error_log($th->getMessage());
         } finally {
             $statement = null;
             $pdo = null;
