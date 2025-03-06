@@ -5,7 +5,14 @@ class BandaController extends Controller{
 
     public function get($id){
         $model = new BandaModel();
-        $banda = $model->get($id);
+        
+        if(count($id)!=1){
+            Controller::sendNotFound("Las bandas se identifican por un solo id.");
+            die();
+        }
+
+        $banda = $model->get($id[0]);
+
         
         if($banda==null){
             Controller::sendNotFound("El id no se corresponde con ninguna banda");
@@ -35,8 +42,14 @@ class BandaController extends Controller{
     }
     
     public function delete($id) {
+
+        if(count($id)!=1){
+            Controller::sendNotFound("Las bandas se identifican por un solo id.");
+            die();
+        }
+
         $model = new BandaModel();
-        if($model->delete($id)){
+        if($model->delete($id[0])){
             echo "Banda eliminada";
         }else{
             Controller::sendNotFound("No se ha podido eliminar");
@@ -44,10 +57,16 @@ class BandaController extends Controller{
     }
 
     public function update($id, $object){
+
+        if(count($id)!=1){
+            Controller::sendNotFound("Las bandas se identifican por un solo id.");
+            die();
+        }
+
         $model = new BandaModel();
         $banda = Banda::fromJson($object);
 
-        if($model->update($banda,$id)){
+        if($model->update($banda,$id[0])){
             echo "Banda modificada";
         }else{
             Controller::sendNotFound("No se ha podido modificar");
