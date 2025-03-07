@@ -31,7 +31,7 @@ class AuthModel
             $statement->bindValue(':token',$token, PDO::PARAM_STR);
             $access = $statement->execute();
             $access = $statement->rowCount() >= 1;
-        } catch (\Throwable $th) {
+        } catch (PDOException $th) {
             error_log("Error en la consulta de autenticacion ($token , $endpoint, $method)");
             $access = false;
         }finally{
