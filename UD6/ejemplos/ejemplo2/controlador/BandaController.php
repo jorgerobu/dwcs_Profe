@@ -6,10 +6,12 @@ class BandaController extends Controller{
     public function get($id){
         $model = new BandaModel();
 
+        
         if(count($id)!=1){
-            Controller::sendNotFound("Las bandas se identifican por un sol id.");
+            Controller::sendNotFound("Las bandas se identifican por un solo id.");
             die();
         }
+
         $banda = $model->get($id[0]);
         
         if($banda==null){
@@ -40,10 +42,12 @@ class BandaController extends Controller{
     }
     
     public function delete($id) {
+
         if(count($id)!=1){
-            Controller::sendNotFound("Las bandas se identifican por un sol id.");
+            Controller::sendNotFound("Las bandas se identifican por un solo id.");
             die();
         }
+
         $model = new BandaModel();
         if($model->delete($id[0])){
             echo "Banda eliminada";
@@ -53,10 +57,12 @@ class BandaController extends Controller{
     }
 
     public function update($id, $object){
+
         if(count($id)!=1){
-            Controller::sendNotFound("Las bandas se identifican por un sol id.");
+            Controller::sendNotFound("Las bandas se identifican por un solo id.");
             die();
         }
+
         $model = new BandaModel();
         $banda = Banda::fromJson($object);
 

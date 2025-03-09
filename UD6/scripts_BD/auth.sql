@@ -48,7 +48,11 @@ CREATE TABLE autorizacion(
 INSERT INTO permiso(id,nombre,descripcion) VALUES (1,'GET_ONE','Permite recuperar un elemento del endpoint'), 
 (2,'GET','Permite recuperar todos los elementos del endpoint'), 
 (3,'POST','Permite crear nuevos elementos del endpoint'),
+<<<<<<< HEAD
 (4,'POST','Permite modificar un elemento del endpoint'),
+=======
+(4,'PUT','Permite modificar un elemento del endpoint'),
+>>>>>>> 5e4435ff196bca9fa38fd577a86d0a7b40cd03e2
 (5,'DELETE','Permite eliminar un elemento del endpoint');
 
 INSERT INTO endpoint(uri) VALUES ('banda'), ('disco'), ('pista');

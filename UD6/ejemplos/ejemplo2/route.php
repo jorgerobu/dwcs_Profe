@@ -1,6 +1,7 @@
 <?php
 include_once("globals.php");
 include_once("controlador/Controller.php");
+
 include_once("controlador/AuthController.php");
 
 function getIds(array $uri):array{
@@ -8,6 +9,7 @@ function getIds(array $uri):array{
 
     //recoremos la uri para almacenar las id en un array
     for($i=count($uri)-1; $i>=0;$i--){ 
+
         if(intval($uri[$i])){
             $ids[] = $uri[$i];
         }
