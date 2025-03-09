@@ -31,8 +31,6 @@ class Disco extends ModelObject{
 
 class DiscoModel extends Model
 {
-
-
     public function getAll()
     {
         $sql = "SELECT * FROM disco";
